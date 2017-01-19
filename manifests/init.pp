@@ -38,6 +38,7 @@ class activemq(
   $mq_cluster_username     = $activemq::params::mq_cluster_username,
   $mq_cluster_password     = $activemq::params::mq_cluster_password,
   $mq_cluster_brokers      = $activemq::params::mq_cluster_brokers,
+  $manage_init             = true,
 ) inherits activemq::params {
 
   validate_re($ensure, '^running$|^stopped$')
@@ -84,9 +85,10 @@ class activemq(
   }
 
   class { 'activemq::packages':
-    version => $version_real,
-    package => $package_real,
-    notify  => Class['activemq::service'],
+    version     => $version_real,
+    package     => $package_real,
+    manage_init => $manage_init,
+    notify      => Class['activemq::service'],
   }
 
   class { 'activemq::config':

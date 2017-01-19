@@ -11,8 +11,9 @@
 # Sample Usage:
 #
 class activemq::packages (
+  $manage_init = true,
   $version,
-  $package
+  $package,
 ) {
 
   validate_re($version, '^[~+._0-9a-zA-Z:-]+$')
@@ -26,7 +27,7 @@ class activemq::packages (
   }
 
   # Has been reworked in 5.9 and no longer needed
-  if $::osfamily == 'RedHat' and ($version == 'present' or versioncmp($version, '5.9') < 0) {
+  if $manage_init and $::osfamily == 'RedHat' and ($version == 'present' or versioncmp($version, '5.9') < 0) {
     # JJM Fix the activemq init script always exiting with status 0
     # FIXME This should be corrected in the upstream packages
     file { '/etc/init.d/activemq':
