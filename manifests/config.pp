@@ -28,7 +28,7 @@ class activemq::config (
   }
 
   if $server_config_show_diff != 'UNSET' {
-    if versioncmp($settings::puppetversion, '3.2.0') >= 0 {
+    if versioncmp($::settings::puppetversion, '3.2.0') >= 0 {
       File { show_diff => $server_config_show_diff }
     } else {
       warning('show_diff not supported in puppet prior to 3.2, ignoring')
